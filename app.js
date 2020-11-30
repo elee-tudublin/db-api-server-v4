@@ -1,16 +1,25 @@
 // require imports packages required by the application
 const express = require('express');
 const cors = require('cors')
+//const helmet = require('helmet');
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 
 const HOST = '127.0.0.1';
 const PORT = 8080;
 
+// Auth0
+//const { checkJwt } = require('./middleware/jwt.js');
 
 // app is a new instance of express (the web app framework)
 let app = express();
 
+// check auth for all routes
+//app.use(checkJwt);
+
+// adding Helmet to enhance your API's security
+//app.use(helmet());
 
 // Application settings
 app.use((req, res, next) => {
@@ -35,6 +44,9 @@ app.use(bodyParser.urlencoded({ extended: true })); // support url encoded bodie
 app.use(cors({ credentials: true, origin: true }));
 app.options('*', cors()) // include before other routes
 
+// adding morgan to log HTTP requests
+//app.use(morgan('combined'));
+
 /* Configure app Routes to handle requests from browser */
 // The default route 
 app.use('/', require('./controllers/index'));
@@ -52,7 +64,7 @@ app.use(function (req, res, next) {
 });
 
 // Start the HTTP server using HOST address and PORT consts defined above
-// Lssten for incoming connections
+// Listen for incoming connections
 var server = app.listen(PORT, HOST, function() {
     console.log(`Express server listening on http://localhost:${PORT}`);
 });

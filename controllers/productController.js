@@ -1,13 +1,16 @@
 const router = require('express').Router();
-
 const productService = require('../services/productService.js');
+// Auth0
+const { checkJwt, checkScopes } = require('../middleware/jwtAuth.js');
 
+// check auth for all routes in this controller
+//router.use(checkJwt);
 
 // GET listing of all products
 // Address http://server:port/product
 // returns JSON
 router.get('/', async (req, res) => {
-
+    
     let result;
     // Get products
     try {
@@ -72,7 +75,7 @@ router.get('/bycat/:id', async (req, res) => {
 
 // POST - Insert a new product.
 // This async function sends a HTTP POST request
-router.post('/', async (req, res) => {
+router.post('/', checkJwt, checkScopes(['modify:products']), async (req, res) => {
 
     // the request body contains the new product values - copy it
     const newProduct = req.body;
@@ -97,7 +100,7 @@ router.post('/', async (req, res) => {
 
 // PUT update product
 // Like post but productId is provided and method = put
-router.put('/', async (req, res) => {
+router.put('/', checkJwt, checkScopes(['modify:products']), async (req, res) => {
 
     // the request body contains the new product values - copy it
     const product = req.body;
