@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const productService = require('../services/productService.js');
+
 // Auth0
 const { authConfig, checkJwt, checkAuth } = require('../middleware/jwtAuth.js');
 
@@ -75,6 +76,8 @@ router.get('/bycat/:id', async (req, res) => {
 
 // POST - Insert a new product.
 // This async function sends a HTTP POST request
+// checkJwt authenticates the user - ddid the request include a valid JWT?
+// checkAuth checks permissions - does the JWT include create:products (authConfig.create)
 router.post('/', checkJwt, checkAuth([authConfig.create]), async (req, res) => {
 
     // the request body contains the new product values - copy it
