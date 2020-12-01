@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const productService = require('../services/productService.js');
 // Auth0
-const { checkJwt, checkScopes } = require('../middleware/jwtAuth.js');
+const { authConfig, checkJwt, checkAuth } = require('../middleware/jwtAuth.js');
 
 // check auth for all routes in this controller
 //router.use(checkJwt);
@@ -75,7 +75,7 @@ router.get('/bycat/:id', async (req, res) => {
 
 // POST - Insert a new product.
 // This async function sends a HTTP POST request
-router.post('/', checkJwt, checkScopes(['modify:products']), async (req, res) => {
+router.post('/', checkJwt, checkAuth([authConfig.create]), async (req, res) => {
 
     // the request body contains the new product values - copy it
     const newProduct = req.body;
@@ -100,7 +100,7 @@ router.post('/', checkJwt, checkScopes(['modify:products']), async (req, res) =>
 
 // PUT update product
 // Like post but productId is provided and method = put
-router.put('/', checkJwt, checkScopes(['modify:products']), async (req, res) => {
+router.put('/', checkJwt, checkAuth([authConfig.update]), async (req, res) => {
 
     // the request body contains the new product values - copy it
     const product = req.body;
@@ -124,7 +124,7 @@ router.put('/', checkJwt, checkScopes(['modify:products']), async (req, res) => 
 });
 
 // DELETE single task.
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', checkJwt, checkAuth([authConfig.delete]), async (req, res) => {
 
     let result;
     // read value of id parameter from the request url

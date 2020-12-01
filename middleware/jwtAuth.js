@@ -17,11 +17,13 @@ const checkJwt = jwt({
     algorithms: ["RS256"]
   });
 
+// https://github.com/auth0/express-jwt-authz#user-content-options
 // https://medium.com/javascript-in-plain-english/securing-a-node-js-api-with-auth0-7785a8f2c8e3
-const checkScopes = permissions => jwtAuthz(permissions);  
+const checkAuth = permissions => jwtAuthz(permissions, {customScopeKey: "permissions", checkAllScopes: true });  
 
 
 module.exports = {
+  authConfig,
   checkJwt,
-  checkScopes
+  checkAuth
 };

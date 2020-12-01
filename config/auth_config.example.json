@@ -1,0 +1,8 @@
+{
+    "domain": "my-domain.eu.auth0.com",
+    "audience": "https://my-api.com",
+    "create": "create:products",
+    "read": "read:products",
+    "update": "update:products",
+    "delete": "delete:products"
+}
