@@ -3,13 +3,15 @@ const axios = require('axios').default;
 
 let getAuthUser = async (accessToken) => {
 
-    const url = "https://elee-tudublin.eu.auth0.com/userinfo";
+    // Auth0 user info url
+    const url = `${authConfig.issuer}userinfo`;
     const config = {
       headers: {
         "authorization": `Bearer ${accessToken}`
       }
     }
     
+    // Use axios to make request
     const user = await axios.get(url, config);
   
     return user.data;
