@@ -3,6 +3,7 @@ const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
 const jwtAuthz = require('express-jwt-authz');
 
+
 // Configuration settings
 const authConfig = require("../config/auth_config.json");
  
@@ -20,6 +21,7 @@ const checkJwt = jwt({
     }),
   
     audience: authConfig.audience,
+    scope: 'openid email profile',
     issuer: authConfig.issuer,
     algorithms: authConfig.algorithms
   });
@@ -33,9 +35,13 @@ const checkJwt = jwt({
 const checkAuth = (permissions) => jwtAuthz(permissions, {customScopeKey: "permissions" });
 // ,checkAllScopes: true 
 
+
+
+
+
 // Export
 module.exports = {
   authConfig,
   checkJwt,
-  checkAuth
+  checkAuth,
 };

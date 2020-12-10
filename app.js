@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors')
 //const helmet = require('helmet');
-const morgan = require('morgan');
+//const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 
@@ -55,6 +55,7 @@ app.use('/product', require('./controllers/productController'));
 
 app.use('/category', require('./controllers/categoryController'));
 
+app.use('/user', require('./controllers/userController'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

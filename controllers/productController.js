@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const productService = require('../services/productService.js');
+const userService = require('../services/userService.js');
 
 // Auth0
-const { authConfig, checkJwt, checkAuth } = require('../middleware/jwtAuth.js');
+const { authConfig, checkJwt, checkAuth, getUser } = require('../middleware/jwtAuth.js');
 
 // check auth for all routes in this controller
 //router.use(checkJwt);
@@ -11,8 +12,20 @@ const { authConfig, checkJwt, checkAuth } = require('../middleware/jwtAuth.js');
 // Address http://server:port/product
 // returns JSON
 router.get('/', async (req, res) => {
-    
     let result;
+
+
+    // Get info from user profile
+    // if logged in (therefore access token exists)
+    // get token from request
+    if (req.headers['authorization']) {
+        let token = req.headers['authorization'].replace('Bearer ', '');
+        const userProfile = await userService.getAuthUser(token);
+        console.log("user profile: ", userProfile);
+        console.log("user email: ", userProfile.email);
+    }
+
+
     // Get products
     try {
 

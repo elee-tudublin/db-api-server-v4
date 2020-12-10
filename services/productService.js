@@ -1,6 +1,5 @@
 // require the database connection
 const productRepository = require('../repositories/productRepository.js');
-
 const productValidator = require('../validators/productValidators.js');
 
 // Input validation package
@@ -11,7 +10,6 @@ const validator = require('validator');
 // Get all products via the repository
 // return products
 let getProducts = async () => {
-
     let products = await productRepository.getProducts();
     return products;
 };
