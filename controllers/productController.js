@@ -18,11 +18,16 @@ router.get('/', async (req, res) => {
     // Get info from user profile
     // if logged in (therefore access token exists)
     // get token from request
-    if (req.headers['authorization']) {
-        let token = req.headers['authorization'].replace('Bearer ', '');
-        const userProfile = await userService.getAuthUser(token);
-        console.log("user profile: ", userProfile);
-        console.log("user email: ", userProfile.email);
+    try {
+        if (req.headers['authorization']) {
+            let token = req.headers['authorization'].replace('Bearer ', '');
+            const userProfile = await userService.getAuthUser(token);
+            console.log("user profile: ", userProfile);
+            console.log("user email: ", userProfile.email);
+        }
+
+    }catch(err) {
+        console.log(`ERROR getting user profile: ${err.message}`);
     }
 
 

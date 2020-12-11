@@ -41,6 +41,7 @@ router.get('/profile', async (req, res) => {
 
       // Catch and send errors  
       } catch (err) {
+        console.log(`ERROR getting user profile: ${err.message}`);
         res.status(500);
         res.send(err.message);
       }
