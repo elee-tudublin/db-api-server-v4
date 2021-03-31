@@ -3,8 +3,6 @@ const express = require('express');
 const cors = require('cors')
 //const helmet = require('helmet');
 //const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser')
 
 const HOST = '127.0.0.1';
 const PORT = 8080;
@@ -26,15 +24,16 @@ app.use((req, res, next) => {
     // Globally set Content-Type header for the application
     res.setHeader("Content-Type", "application/json");
     next();
-}); 
+});
 
-// Cookie support
-app.use(cookieParser());
-
-// Allow app to support differnt body content types (using the bidyParser package)
-app.use(bodyParser.text());
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support url encoded bodies
+// Allow app to support differnt body content types (using the bodyParser package)
+app.use(express.text());
+// support json encoded bodies
+app.use(express.json());
+// support url encoded bodies
+app.use(express.urlencoded({
+    extended: true
+}));
 
 
 // cors
@@ -59,14 +58,14 @@ app.use('/user', require('./controllers/userController'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found: '+ req.method + ":" + req.originalUrl);
+    var err = new Error('Not Found: ' + req.method + ":" + req.originalUrl);
     err.status = 404;
     next(err);
 });
 
 // Start the HTTP server using HOST address and PORT consts defined above
 // Listen for incoming connections
-var server = app.listen(PORT, HOST, function() {
+var server = app.listen(PORT, HOST, () => {
     console.log(`Express server listening on http://localhost:${PORT}`);
 });
 
